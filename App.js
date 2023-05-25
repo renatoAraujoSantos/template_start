@@ -1,11 +1,9 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { PlantDetail } from "./src/screens/index";
-import Tabs from "./src/navigation/tabs";
-import AppLoading from 'expo-app-loading';
+import { useEffect, useCallback } from 'react';
+import { View } from 'react-native';
+import { useFonts } from 'expo-font';
+import Inicio from './src/Inicio';
+import * as SplashScreen from 'expo-splash-screen';
 import {
-    useFonts,
     Roboto_100Thin,
     Roboto_100Thin_Italic,
     Roboto_300Light,
@@ -20,19 +18,18 @@ import {
     Roboto_900Black_Italic,
 } from '@expo-google-fonts/roboto';
 
+import {
+    RobotoCondensed_300Light,
+    RobotoCondensed_300Light_Italic,
+    RobotoCondensed_400Regular,
+    RobotoCondensed_400Regular_Italic,
+    RobotoCondensed_700Bold,
+    RobotoCondensed_700Bold_Italic,
+} from '@expo-google-fonts/roboto-condensed';
 
-const theme = {
-    ...DefaultTheme,
-    colors: {
-        ...DefaultTheme.colors,
-        border: "transparent",
-    },
-};
+export default function App() {
 
-const Stack = createStackNavigator();
-
-const App = () => {
-    let [fontsLoaded] = useFonts({
+    const [fontsLoaded] = useFonts({
         Roboto_100Thin,
         Roboto_100Thin_Italic,
         Roboto_300Light,
@@ -45,32 +42,35 @@ const App = () => {
         Roboto_700Bold_Italic,
         Roboto_900Black,
         Roboto_900Black_Italic,
+        RobotoCondensed_300Light,
+        RobotoCondensed_300Light_Italic,
+        RobotoCondensed_400Regular,
+        RobotoCondensed_400Regular_Italic,
+        RobotoCondensed_700Bold,
+        RobotoCondensed_700Bold_Italic,
     });
 
+    useEffect(() => {
+        async function prepare() {
+            await SplashScreen.preventAutoHideAsync();
+        }
+        prepare();
+    }, []);
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
     if (!fontsLoaded) {
-        return <AppLoading />;
-    } else {
-
-        return (
-            <NavigationContainer theme={theme}>
-                <Stack.Navigator
-                    screenOptions={{
-                        headerShown: false
-                    }}
-                    initialRouteName={'Tabs'}
-                >
-                    {/* Tabs */}
-                    <Stack.Screen name="Tabs" component={Tabs} />
-
-                    {/* Screens */}
-                    <Stack.Screen name="PlantDetail" component={PlantDetail} options={{ headerShown: false }} />                    
-
-                </Stack.Navigator>
-            </NavigationContainer>
-        );
+        return null;
     }
-};
 
-export default () => {
-    return <App />;
-};
+    return (
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <Inicio />
+        </View>
+    );
+}
+

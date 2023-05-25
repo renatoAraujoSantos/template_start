@@ -1,5 +1,11 @@
-import icons from "./icons";
-import images from "./images";
-import theme, { COLORS, SIZES, FONTS } from "./theme";
+//import images from "./images";
+import Theme, { COLORS, SIZES, FONTS } from "./Theme";
+import icons from "./Icons";
 
-export { icons, images, theme, COLORS, SIZES, FONTS };
+export {     
+    Theme,     
+    COLORS, 
+    SIZES, 
+    FONTS ,
+    icons
+};

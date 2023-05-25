@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "template_start",
-    "slug": "template_start",
+    "name": "banco",
+    "slug": "banco",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]
   },
-  "name": "template_start"
+  "name": "banco"
 }
